@@ -188,7 +188,7 @@ cat(paste("- Avg. enrollment count for Online Courses:", format(online, big.mark
 
 
 
-#TASK 5:
+#TASK 6:
 #converting all categorical variables to factors and apply OneHotEncoder
 
 # Convert 'pre_score' to a factor variable
@@ -206,8 +206,6 @@ test_data <- data[-splitIndex, ]
 
 
 
-
-#TASK 6:
 # Fit a Linear Regression model (LM)
 lm_model <- lm(enrollment_count ~ ., data = train_data)
 
@@ -215,8 +213,8 @@ lm_model <- lm(enrollment_count ~ ., data = train_data)
 predictions <- predict(lm_model, newdata = test_data)
 
 # Calculate Root Mean Squared Error (RMSE)
-rmse <- sqrt(mean((predictions - test_data$enrollment_count)^2))
-cat("Root Mean Squared Error (LM):", rmse, "\n")
+rmse_lm <- sqrt(mean((predictions - test_data$enrollment_count)^2))
+cat("Root Mean Squared Error (LM):", rmse_lm, "\n")
 
 # Create a data frame for plotting
 plot_data <- data.frame(
@@ -231,7 +229,8 @@ ggplot(plot_data, aes(x = actual, y = predicted)) +
   labs(x = "Actual Enrollment", y = "LM Predicted Enrollment",
        title = "Actual vs. LM Predicted Enrollment") +
   annotate("text", x = max(plot_data$actual), y = min(plot_data$predicted),
-           label = paste("RMSE =", round(rmse, 2)), hjust = 1)
+           label = paste("RMSE =", round(rmse_lm, 2)), hjust = 1)
+
 
 
 
@@ -244,8 +243,8 @@ svm_model <- svm(enrollment_count ~ ., data = train_data)
 predictions <- predict(svm_model, newdata = test_data)
 
 # Calculate Root Mean Squared Error (RMSE)
-rmse <- sqrt(mean((predictions - test_data$enrollment_count)^2))
-cat("Root Mean Squared Error (SVM):", rmse, "\n")
+rmse_svm <- sqrt(mean((predictions - test_data$enrollment_count)^2))
+cat("Root Mean Squared Error (SVM):", rmse_svm, "\n")
 
 # Create a data frame for plotting
 plot_data <- data.frame(
@@ -260,4 +259,4 @@ ggplot(plot_data, aes(x = actual, y = predicted)) +
   labs(x = "Actual Enrollment", y = "SVM Predicted Enrollment",
        title = "Actual vs. SVM Predicted Enrollment") +
   annotate("text", x = max(plot_data$actual), y = min(plot_data$predicted),
-           label = paste("RMSE =", round(rmse, 2)), hjust = 1)
+           label = paste("RMSE =", round(rmse_svm, 2)), hjust = 1)

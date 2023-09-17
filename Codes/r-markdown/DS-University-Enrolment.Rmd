@@ -11,10 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Background
 
-You are working as a data scientist at a local University. The university started offering online
-courses to reach a wider range of students. The university wants you to help them understand
-enrollment trends. They would like you to identify what contributes to higher enrollment. In
-particular, whether the course type (online or classroom) is a factor.
+You are working as a data scientist at a local University. The university started offering online courses to reach a wider range of students. The university wants you to help them understand enrollment trends. They would like you to identify what contributes to higher enrollment. In particular, whether the course type (online or classroom) is a factor.
 
 The dataset contains records for each course offered over the last 5 years.
 
@@ -54,7 +51,7 @@ summary(data)
 
 
 
-```{r}
+```{r Task_1(i)}
 # Compare the description for each column
 
 # course_id Data Validation
@@ -127,7 +124,7 @@ cat(paste("Sum of missing values before cleaning:", dep_count_na, "\n\n"))
 
 
 
-```{r}
+```{r Task_1(ii)}
 # Data Cleaning
 cat("For each column that presented missing values, or incorrect description:\n")
 # pre_score - replace missing values and "-"
@@ -156,7 +153,7 @@ cat(paste("Unique values after cleaning:", unique(data$department), "\n"))
 ```
 
 
-**Solution To Task 1**
+**Solution To Task 1:**
 
 The dataset contains **1850 rows and 8 columns** with missing values before cleaning. All the columns were validated against the criteria in the dataset table. Below were the observations:
 
@@ -165,9 +162,9 @@ The dataset contains **1850 rows and 8 columns** with missing values before clea
 * Column 2 (course_type): All values are either "online" or "classroom" with 0 missing values.
 * Column 3 (year): All values are between 2011 and 2022 inclusive with 0 missing values.
 * Column 4 (enrollment_count): All values are discrete counts of enrollments with 0 missing values.
-* Column 5 (pre_score): Contains continuous score data with **130 missing values.** Missing values were replaced with 0.
-* Column 6 (post_score): Contains continuous score data with **185 missing values.** Missing values were replaced with 0.
-* Column 7 (pre_requirement): All values are either "None", "Beginner" or "Intermediate" with **89 missing values.** Missing values were replaced with "None".
+* Column 5 (pre_score): Contains continuous score data with **130 missing values**. Missing values were replaced with 0.
+* Column 6 (post_score): Contains continuous score data with **185 missing values**. Missing values were replaced with 0.
+* Column 7 (pre_requirement): All values are either "None", "Beginner" or "Intermediate" with **89 missing values**. Missing values were replaced with "None".
 * Column 8 (department): The values here are either "Science", "Technology", "Engineering", or "Mathematics", however, there were instances of *"Math"* which is not in the given criteria. It is assumed that "Math" refers to "Mathematics" and were replaced accordingly.
 
 
@@ -175,7 +172,7 @@ The dataset contains **1850 rows and 8 columns** with missing values before clea
 # Task 2:
 ## Describe the distribution of the enrollment counts. Your answer must include a visualization that shows the distribution.
 
-```{r}
+```{r Task_2}
 # Creating subplots
 par(mfrow=c(1, 2), mar=c(4, 4, 2, 1))
 
@@ -210,13 +207,22 @@ cat(paste("- Mode:", mode_val, "\n"))
 
 
 
-**Solution To Task 2**
+
+**Solution To Task 2:**
+
+From Graph, it can be seen that the graph is divided into two distinct groups. This indicates two discernible clusters along the x-axis of which the most prominent is around the region of 260 enrollments. This suggests that the majority of the enrollment counts happens around this area, as confirmed by the mode value of 261 and median value of 251.
+The histogram also reveals that some courses have far less enrollments at the region of 170, which could be due to ineffective marketing strategies, lack of interest in the courses, or even data entry errors. It would be good to further investigate the factors contributing to this low enrollment count.
 
 
 
-```{r}
 
-#TASK 3
+# Task 3:
+## Create a visualization that shows how many courses were of each type. Use the visualization to:
+### a. State which type of course has the most observations.
+### b. Explain whether the observations are balanced across the types.
+
+
+```{r Task_3}
 #Bar plot to Visualize the Course type
 ggplot(data, aes(x = course_type, fill = course_type)) +
   geom_bar() +
@@ -231,14 +237,20 @@ proportion <- round((online / (online + classroom)) * 100)
 
 cat(paste("- Proportion of Online to Classroom Type of Courses:", proportion, "%\n"))
 
-
 ```
 
+**Solution To Task 3:**
+
+* a. From the graph, online has the most observations.
+* b. The observations are not balanced across the two types of courses. Online courses make up approximately 74% of the total leaving only 26% for classroom courses. The is a disproportion in the course type which may potentially impact the results of the model by over representing online courses. This can be solve by data manipulation techniques to balance the proportions, however, as a result of this analysis, the current distribution is maintained.
 
 
-```{r}
 
-#TASK 4:
+# Task 4:
+## Describe the relationship between course type and the enrollment count. Your answer must include a visualization to demonstrate the relationship.
+
+
+```{r Task_4}
 # Violin plot
 ggplot(data, aes(x = course_type, y = enrollment_count)) +
   geom_violin(fill = "skyblue", color = "black", alpha = 0.5) +
@@ -254,11 +266,37 @@ cat(paste("- Avg. enrollment count for Online Courses:", format(online, big.mark
 
 ```
 
+**Solution To Task 4:**
+
+The graph above reveals a clear difference between the number of enrollments in the online and the classroom courses. Online courses outnumber classroom courses in terms of availability and also to attract a larger number of students. The average enrollment for online courses is approximately **253 students**, while the classroom courses have an approximate average of **170 students**.
+
+One notable reason for this trend could be the inherent physical constraints of classroom-based courses, which can limit the number of students who can enroll. Unlike the online courses, which is unburdened by such limitations, can accommodate a larger number of students. As a result, they typically see a higher number of enrollments. This trend can also be influenced by changing the advancements of technology that have made online learning more accessible, easier and popular.
+
+In conclusion, the data suggest that the course type plays a significant role in the number of students a course can attract.
 
 
-```{r}
 
-#TASK 5:
+
+# Task 5:
+## The university wants to predict how many students will enroll in a course. State the type of machine learning problem that this is (regression/ classification/ clustering).
+
+
+**Solution To Task 5:**
+
+Predicting the number of students that will enroll in a course is a **Regression Problem** in machine learning. 
+
+
+
+# Task 6:
+## Fit a baseline model to predict how many students will enroll using the data provided. You must include your code.
+
+
+**Solution To Task 6:**
+
+The Baseline Model is **Linear Regression Model**.
+
+
+```{r Task_6}
 #converting all categorical variables to factors and apply OneHotEncoder
 
 # Convert 'pre_score' to a factor variable
@@ -276,12 +314,7 @@ test_data <- data[-splitIndex, ]
 
 ```
 
-
-
-
-```{r}
-
-#TASK 6:
+```{r LR_Model}
 # Fit a Linear Regression model (LM)
 lm_model <- lm(enrollment_count ~ ., data = train_data)
 
@@ -289,8 +322,8 @@ lm_model <- lm(enrollment_count ~ ., data = train_data)
 predictions <- predict(lm_model, newdata = test_data)
 
 # Calculate Root Mean Squared Error (RMSE)
-rmse <- sqrt(mean((predictions - test_data$enrollment_count)^2))
-cat("Root Mean Squared Error (LM):", rmse, "\n")
+rmse_lm <- sqrt(mean((predictions - test_data$enrollment_count)^2))
+cat("Root Mean Squared Error (LM):", rmse_lm, "\n")
 
 # Create a data frame for plotting
 plot_data <- data.frame(
@@ -305,15 +338,23 @@ ggplot(plot_data, aes(x = actual, y = predicted)) +
   labs(x = "Actual Enrollment", y = "LM Predicted Enrollment",
        title = "Actual vs. LM Predicted Enrollment") +
   annotate("text", x = max(plot_data$actual), y = min(plot_data$predicted),
-           label = paste("RMSE =", round(rmse, 2)), hjust = 1)
+           label = paste("RMSE =", round(rmse_lm, 2)), hjust = 1)
 
 ```
 
 
 
-```{r}
+# Task 7:
+## Fit a comparison model to predict how many students will enroll using the data provided. You must include your code.
 
-#TASK 7:
+
+**Solution To Task 7:**
+
+The Comparison Model is **Support Vector Machine (SVM) Model**.
+The Support Vector Machine is a powerful and versatile machine learning algorithm used for both classification and regression tasks.
+
+
+```{r Task_7}
 # Fit a Support Vector Machine (SVM) model
 svm_model <- svm(enrollment_count ~ ., data = train_data)
 
@@ -321,8 +362,8 @@ svm_model <- svm(enrollment_count ~ ., data = train_data)
 predictions <- predict(svm_model, newdata = test_data)
 
 # Calculate Root Mean Squared Error (RMSE)
-rmse <- sqrt(mean((predictions - test_data$enrollment_count)^2))
-cat("Root Mean Squared Error (SVM):", rmse, "\n")
+rmse_svm <- sqrt(mean((predictions - test_data$enrollment_count)^2))
+cat("Root Mean Squared Error (SVM):", rmse_svm, "\n")
 
 # Create a data frame for plotting
 plot_data <- data.frame(
@@ -337,12 +378,41 @@ ggplot(plot_data, aes(x = actual, y = predicted)) +
   labs(x = "Actual Enrollment", y = "SVM Predicted Enrollment",
        title = "Actual vs. SVM Predicted Enrollment") +
   annotate("text", x = max(plot_data$actual), y = min(plot_data$predicted),
-           label = paste("RMSE =", round(rmse, 2)), hjust = 1)
+           label = paste("RMSE =", round(rmse_svm, 2)), hjust = 1)
 
 ```
 
 
 
 
+# Task 8:
+## Explain why you chose the two models used in parts 6 and 7.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+**Solution To Task 8:**
+
+I chose the **Linear Regression model** as a baseline model because it is simple and efficient to train and interpret. Also, I chose the **Support Vector Machine** because it can efficiently handle non-linear relationships between features and the target variable by using kernel functions and can also transform data into higher-dimensional space.
+
+
+
+
+# Task 9:
+## Compare the performance of the two models used in parts 6 and 7, using any method suitable. You must include your code.
+
+
+**Solution To Task 9:**
+
+I am using **Root Mean Squared Error (RMSE)** to compare the performance of the two model. RMSE take the square root of the Mean Square Error (MSE) to get the RMSE, which provides the average error in the same units as the target variable. I chose this method because it is commonly used and easy to interpret. A lower value means a better model. *Code in Task 6 & 7*.
+
+
+
+
+# Task 10:
+## Explain which model performs better and why.
+
+
+**Solution To Task 10:**
+
+As explain in **Task 9**, a smaller or lower RMSE value indicates that the model has smaller errors in prediction.
+
+Therefore, based on the RMSE results in *Task 6 & 7*, we conclude that the **Linear Regression Model** is performing better at predicting the number of students that will enroll than the **Support Vector Machine Model**.

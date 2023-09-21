@@ -12,7 +12,7 @@ library(e1071)
 
 
 #Read datasets
-data <- read.csv("D:/Data Science Projects/DS-Associate-Certification/Data/university_enrollment_2306.csv")
+data <- read.csv("D:/Data Science Projects/R/DS-Associate-Certification/Data/university_enrollment_2306.csv")
 
 # Display data summary
 str(data)

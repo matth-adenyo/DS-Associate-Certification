@@ -1,4 +1,14 @@
-# DS-Associate-Certification
-DataCamp Certification: Data Science Associate Practical Project
+# Data Scientist Associate Certificate
 
-file:///D:/Data%20Science%20Projects/R/Data_Scientist_Associate/svg/data_scientist_associate_banner.svg
+
+ ![Alt text](D:/Data Science Projects/R/Data_Scientist_Associate/data_scientist_associate_banner.png)
+
+
+
+## Competencies and Skills Include:
+
+- Data Management
+- Exploratory Analysis
+- Statistical Experimentation
+- Modeling
+- Communication and Visualization
